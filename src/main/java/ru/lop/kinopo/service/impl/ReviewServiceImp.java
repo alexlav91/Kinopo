@@ -1,25 +1,26 @@
 package ru.lop.kinopo.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.lop.kinopo.exceptions.FilmNotFoundException;
 import ru.lop.kinopo.exceptions.ReviewNotFoundException;
-import ru.lop.kinopo.model.dto.ReviewDTO;
+import ru.lop.kinopo.model.dto.ReviewDto;
+import ru.lop.kinopo.model.entity.Film;
 import ru.lop.kinopo.model.entity.Review;
+import ru.lop.kinopo.repository.FilmRepository;
 import ru.lop.kinopo.repository.ReviewRepository;
 import ru.lop.kinopo.service.ReviewService;
 
 import java.util.List;
 import java.util.Optional;
 
-
+@RequiredArgsConstructor
 @Service
 public class ReviewServiceImp implements ReviewService {
-    private ReviewRepository reviewRepository;
-    @Autowired
-    public ReviewServiceImp(ReviewRepository reviewRepository) {
+    private final ReviewRepository reviewRepository;
+    private final FilmRepository filmRepository;
 
-        this.reviewRepository = reviewRepository;
-    }
 
     @Override
     public List<Review> getAllReviews() {
@@ -39,13 +40,26 @@ public class ReviewServiceImp implements ReviewService {
     }
 
     @Override
-    public Review saveReview(ReviewDTO review) {
+    public Review saveReview(ReviewDto review) throws FilmNotFoundException {
         Review review1=new Review();
         review1.setRating(review.getRating());
         review1.setMessage(review.getMessage());
         review1.setDate(review.getDate());
         review1.setFilm(review.getFilm());
         review1.setCritic(review.getCritic());
+//        double sum=0.0;
+//        if (review1.getFilm().getReviewList().size()!=0) {
+//            for (int i = 0; i < review1.getFilm().getReviewList().size(); i++) {
+//                sum+=review1.getFilm().getReviewList().get(i).getRating();
+//
+//            }
+//            sum/=review1.getFilm().getReviewList().size();
+//            filmRepository.findById(review1.getFilm().getId()).orElseThrow(()->
+//                    new FilmNotFoundException("Фильм с таким ID не существует")).setRatingOfFilm(sum);
+//        }else{
+//            filmRepository.findById(review1.getFilm().getId()).orElseThrow(()->
+//                    new FilmNotFoundException("Фильм с таким ID не существует")).setRatingOfFilm(review.getRating());
+//        }
         return this.reviewRepository.save(review1) ;
     }
 
@@ -55,7 +69,7 @@ public class ReviewServiceImp implements ReviewService {
     }
 
     @Override
-    public Review updateReviewById(long id, ReviewDTO review) throws ReviewNotFoundException {
+    public Review updateReviewById(long id, ReviewDto review) throws ReviewNotFoundException {
         Review review1=reviewRepository.findById(id).orElseThrow(()->new ReviewNotFoundException("Отзыв с таким ID не найден"));
         review1.setRating(review.getRating());
         review1.setMessage(review.getMessage());

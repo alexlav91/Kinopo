@@ -1,5 +1,8 @@
 package ru.lop.kinopo.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -7,6 +10,8 @@ import java.util.List;
 
 @Entity
 @Table(name="Review")
+@Setter
+@Getter
 public class Review {
     @Id
     @GenericGenerator(
@@ -23,55 +28,12 @@ public class Review {
     @Column(name="date")
     private String date;
     @ManyToOne
+    @JoinColumn(name="critic_id")
+    @JsonIgnore
     private Critic critic;
+
+    @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "film_id")
     private Film film;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public Critic getCritic() {
-        return critic;
-    }
-
-    public void setCritic(Critic critic) {
-        this.critic = critic;
-    }
-
-    public Film getFilm() {
-        return film;
-    }
-
-    public void setFilm(Film film) {
-        this.film = film;
-    }
 }

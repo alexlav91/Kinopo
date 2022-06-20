@@ -1,12 +1,18 @@
 package ru.lop.kinopo.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name= "Genre")
+@Setter
+@Getter
 public class Genre {
     @Id
     @GenericGenerator(
@@ -20,38 +26,8 @@ public class Genre {
     private String nameOfGenre;
     @Column(name="description_of_gener")
     private String descriptionOfGenre;
-    @ManyToMany
-    private List <Film> filmList;
 
-    public String getNameOfGenre() {
-        return nameOfGenre;
-    }
 
-    public void setNameOfGenre(String nameOfGenre) {
-        this.nameOfGenre = nameOfGenre;
-    }
-
-    public String getDescriptionOfGenre() {
-        return descriptionOfGenre;
-    }
-
-    public void setDescriptionOfGenre(String descriptionOfGenre) {
-        this.descriptionOfGenre = descriptionOfGenre;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public List<Film> getFilmList() {
-        return filmList;
-    }
-
-    public void setFilmList(List<Film> filmList) {
-        this.filmList = filmList;
-    }
+    @ManyToMany(mappedBy = "genreList")
+    private Set<Film> filmList=new HashSet<>();
 }

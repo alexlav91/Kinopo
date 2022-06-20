@@ -1,11 +1,19 @@
 package ru.lop.kinopo.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name="film")
+@Setter
+@Getter
 public class Film {
     @Id
     @GenericGenerator(
@@ -26,73 +34,15 @@ public class Film {
     @Column(name="year")
     private int year;
     @Column(name =" review")
-    @OneToMany
+    @OneToMany(mappedBy = "film")
     private List<Review> reviewList;
     @Column(name="genre")
-    @ManyToMany
-    private  List<Genre> genreList;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getNameOfFilm() {
-        return nameOfFilm;
-    }
-
-    public void setNameOfFilm(String nameOfFilm) {
-        this.nameOfFilm = nameOfFilm;
-    }
-
-    public String getDescriptionOfFilm() {
-        return descriptionOfFilm;
-    }
-
-    public void setDescriptionOfFilm(String descriptionOfFilm) {
-        this.descriptionOfFilm = descriptionOfFilm;
-    }
-
-    public double getDurationOfFilm() {
-        return durationOfFilm;
-    }
-
-    public void setDurationOfFilm(double durationOfFilm) {
-        this.durationOfFilm = durationOfFilm;
-    }
-
-    public double getRatingOfFilm() {
-        return ratingOfFilm;
-    }
-
-    public void setRatingOfFilm(double ratingOfFilm) {
-        this.ratingOfFilm = ratingOfFilm;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public List<Review> getReviewList() {
-        return reviewList;
-    }
-
-    public void setReviewList(List<Review> reviewList) {
-        this.reviewList = reviewList;
-    }
-
-    public List<Genre> getGenreList() {
-        return genreList;
-    }
-
-    public void setGenreList(List<Genre> genreList) {
-        this.genreList = genreList;
-    }
+    @ManyToMany(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinTable(
+            name="film_genre",
+            joinColumns = {@JoinColumn(name ="genre_id") },
+            inverseJoinColumns = {@JoinColumn(name="film_id")}
+    )
+    @JsonIgnore
+    private Set<Genre> genreList =new HashSet<>();
 }

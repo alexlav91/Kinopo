@@ -2,10 +2,9 @@ package ru.lop.kinopo.service.impl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import ru.lop.kinopo.exceptions.CriticNotFoundExceptions;
-import ru.lop.kinopo.model.dto.CriticDTO;
+import ru.lop.kinopo.model.dto.CriticDto;
 import ru.lop.kinopo.model.entity.Critic;
 import ru.lop.kinopo.repository.CriticRepository;
 import ru.lop.kinopo.service.CriticService;
@@ -45,7 +44,7 @@ public class CriticServiceImp implements CriticService {
     }
 
     @Override
-    public Critic updateCriticById(long id, CriticDTO critic) throws CriticNotFoundExceptions {
+    public Critic updateCriticById(long id, CriticDto critic) throws CriticNotFoundExceptions {
         Critic critic1=criticRepository.findById(id).orElseThrow(() -> new CriticNotFoundExceptions("Критик с таким ID не найден"));
         critic1.setNameOfCritic(critic.getNameOfCritic());
         critic1.setSurnameOfCritic(critic.getSurnameOfCritic());
@@ -55,7 +54,7 @@ public class CriticServiceImp implements CriticService {
     }
 
     @Override
-    public Critic saveCritic(CriticDTO critic) {
+    public Critic saveCritic(CriticDto critic) {
         Critic critic1=new Critic();
         critic1.setNameOfCritic(critic.getNameOfCritic());
         critic1.setSurnameOfCritic(critic.getSurnameOfCritic());

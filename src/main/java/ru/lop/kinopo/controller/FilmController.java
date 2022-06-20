@@ -5,11 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.lop.kinopo.exceptions.FilmNotFoundException;
-import ru.lop.kinopo.model.dto.CriticDTO;
-import ru.lop.kinopo.model.dto.FilmDTO;
-import ru.lop.kinopo.model.entity.Critic;
+import ru.lop.kinopo.model.dto.FilmDto;
 import ru.lop.kinopo.model.entity.Film;
-import ru.lop.kinopo.service.impl.CriticServiceImp;
+import ru.lop.kinopo.model.entity.Review;
 import ru.lop.kinopo.service.impl.FilmServiceImp;
 
 import java.util.List;
@@ -38,13 +36,13 @@ public class FilmController {
     }
     @PostMapping("/")
     @ApiOperation("Добавить фильм")
-    public Film createFilm(@RequestBody FilmDTO film){
+    public Film createFilm(@RequestBody FilmDto film){
 
         return  filmServiceImp.saveFilm(film);
     }
     @PutMapping("{id}")
     @ApiOperation("Обновить данные о фильме")
-    public Film updateFilm(@RequestBody FilmDTO film, @PathVariable(value="id")long id) throws FilmNotFoundException {
+    public Film updateFilm(@RequestBody FilmDto film, @PathVariable(value="id")long id) throws FilmNotFoundException {
         return  filmServiceImp.updateFilmById(id,film);
     }
     @DeleteMapping("{id}")
@@ -53,4 +51,10 @@ public class FilmController {
         this.filmServiceImp.deleteFilmBeId(id);
     }
 
+    @GetMapping("showReviewsByFilm/{id}")
+    @ApiOperation("Показать список отзывов")
+    public List<Review> viewReviewsByFilm(@PathVariable(name="id")long id, Model model) throws FilmNotFoundException {
+        model.addAttribute(filmServiceImp.findReviewsByFilm(id));
+        return filmServiceImp.findReviewsByFilm(id);
+    }
 }

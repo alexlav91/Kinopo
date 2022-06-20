@@ -1,5 +1,7 @@
 package ru.lop.kinopo.model.entity;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -7,6 +9,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "critic")
+@Setter
+@Getter
 public class Critic {
     @Id
     @GenericGenerator(
@@ -23,48 +27,6 @@ public class Critic {
     @Column(name="personal_information")
     private String personalInformation;
 
-    @OneToMany
+    @OneToMany(mappedBy = "critic")
     private List<Review> reviewList;
-
-
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getNameOfCritic() {
-        return nameOfCritic;
-    }
-
-    public void setNameOfCritic(String nameOfCritic) {
-        this.nameOfCritic = nameOfCritic;
-    }
-
-    public String getSurnameOfCritic() {
-        return surnameOfCritic;
-    }
-
-    public void setSurnameOfCritic(String surnameOfCritic) {
-        this.surnameOfCritic = surnameOfCritic;
-    }
-
-    public String getPersonalInformation() {
-        return personalInformation;
-    }
-
-    public void setPersonalInformation(String personalInformation) {
-        this.personalInformation = personalInformation;
-    }
-
-    public List<Review> getReviewList() {
-        return reviewList;
-    }
-
-    public void setReviewList(List<Review> reviewList) {
-        this.reviewList = reviewList;
-    }
 }

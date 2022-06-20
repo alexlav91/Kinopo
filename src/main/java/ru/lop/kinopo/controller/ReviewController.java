@@ -2,14 +2,12 @@ package ru.lop.kinopo.controller;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.lop.kinopo.exceptions.FilmNotFoundException;
 import ru.lop.kinopo.exceptions.ReviewNotFoundException;
-import ru.lop.kinopo.model.dto.ReviewDTO;
-import ru.lop.kinopo.model.entity.Genre;
+import ru.lop.kinopo.model.dto.ReviewDto;
 import ru.lop.kinopo.model.entity.Review;
-import ru.lop.kinopo.repository.ReviewRepository;
 import ru.lop.kinopo.service.impl.ReviewServiceImp;
 
 import java.util.List;
@@ -37,14 +35,14 @@ public class ReviewController {
     }
     @PostMapping("/")
     @ApiOperation("Добавить отзыв")
-    public  Review createReview(@RequestBody ReviewDTO review){
+    public  Review createReview(@RequestBody ReviewDto review) throws FilmNotFoundException {
 
         return reviewServiceImp.saveReview(review);
     }
 
     @PutMapping("{id}")
     @ApiOperation("Отредактировать отзыв")
-    public  Review updateReview(@RequestBody ReviewDTO review, @PathVariable(value = "id")long id) throws ReviewNotFoundException {
+    public  Review updateReview(@RequestBody ReviewDto review, @PathVariable(value = "id")long id) throws ReviewNotFoundException {
         return reviewServiceImp.updateReviewById(id, review);
     }
     @DeleteMapping("{id}")

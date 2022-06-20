@@ -3,9 +3,9 @@ package ru.lop.kinopo.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.lop.kinopo.exceptions.FilmNotFoundException;
-import ru.lop.kinopo.model.dto.FilmDTO;
-import ru.lop.kinopo.model.entity.Critic;
+import ru.lop.kinopo.model.dto.FilmDto;
 import ru.lop.kinopo.model.entity.Film;
+import ru.lop.kinopo.model.entity.Review;
 import ru.lop.kinopo.repository.FilmRepository;
 import ru.lop.kinopo.repository.GenreRepository;
 import ru.lop.kinopo.service.FilmService;
@@ -43,14 +43,14 @@ public class FilmServiceImp implements FilmService {
     }
 
     @Override
-    public Film saveFilm(FilmDTO film) {
+    public Film saveFilm(FilmDto film) {
         Film film1=new Film();
         film1.setNameOfFilm(film.getNameOfFilm());
         film1.setDescriptionOfFilm(film.getDescriptionOfFilm());
         film1.setDurationOfFilm(film.getDurationOfFilm());
-        film1.setRatingOfFilm(film.getRatingOfFilm());
+        film1.setRatingOfFilm(5.0);
         film1.setYear(film.getYear());
-        film1.setGenreList(genreRepository.findAllById(film.getGenreList()));
+        film1.getGenreList().addAll(genreRepository.findAllById(film.getGenreList()));
         return filmRepository.save(film1);
     }
 
@@ -60,15 +60,21 @@ public class FilmServiceImp implements FilmService {
     }
 
     @Override
-    public Film updateFilmById(long id, FilmDTO film) throws FilmNotFoundException {
+    public Film updateFilmById(long id, FilmDto film) throws FilmNotFoundException {
         Film film1=filmRepository.findById(id).orElseThrow(()-> new FilmNotFoundException("Фильм с таким ID не найден"));
         film1.setNameOfFilm(film.getNameOfFilm());
         film1.setDescriptionOfFilm(film.getDescriptionOfFilm());
         film1.setDurationOfFilm(film.getDurationOfFilm());
-        film1.setRatingOfFilm(film.getRatingOfFilm());
+//        film1.setRatingOfFilm(film.getRatingOfFilm());
         film1.setYear(film.getYear());
+        film1.getGenreList().addAll(genreRepository.findAllById(film.getGenreList()));
         return filmRepository.save(film1);
     }
 
+    @Override
+    public List<Review> findReviewsByFilm(long id) throws FilmNotFoundException {
+       Film film=filmRepository.findById(id).orElseThrow(()->new FilmNotFoundException("Фильма с таким ID нейден"));
+        return film.getReviewList();
+    }
 
 }

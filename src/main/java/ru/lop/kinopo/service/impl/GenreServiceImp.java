@@ -1,24 +1,25 @@
 package ru.lop.kinopo.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.lop.kinopo.exceptions.GenreNotFoundException;
-import ru.lop.kinopo.model.dto.GenreDTO;
+import ru.lop.kinopo.model.dto.GenreDto;
+import ru.lop.kinopo.model.entity.Film;
 import ru.lop.kinopo.model.entity.Genre;
+import ru.lop.kinopo.repository.FilmRepository;
 import ru.lop.kinopo.repository.GenreRepository;
 import ru.lop.kinopo.service.GenreService;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Service
+@RequiredArgsConstructor
 public class GenreServiceImp implements GenreService {
-    private GenreRepository genreRepository;
-    @Autowired
-    public GenreServiceImp(GenreRepository genreRepository) {
-        this.genreRepository = genreRepository;
-    }
+    private final GenreRepository genreRepository;
+    private final FilmRepository filmRepository;
+
 
     @Override
     public List<Genre> getAllGenre() {
@@ -26,10 +27,10 @@ public class GenreServiceImp implements GenreService {
     }
 
     @Override
-    public Genre saveGenre(GenreDTO genre) {
+    public Genre saveGenre(GenreDto genreDto) {
         Genre genre1=new Genre();
-        genre1.setNameOfGenre(genre.getNameOfGenre());
-        genre1.setDescriptionOfGenre(genre.getNameOfGenre());
+        genre1.setNameOfGenre(genreDto.getNameOfGenre());
+        genre1.setDescriptionOfGenre(genreDto.getDescriptionOfGenre());
         return genreRepository.save(genre1);
     }
 
@@ -51,10 +52,15 @@ public class GenreServiceImp implements GenreService {
     }
 
     @Override
-    public Genre updateGenreById(long id, GenreDTO genre) throws GenreNotFoundException {
+    public Genre updateGenreById(long id, GenreDto genre) throws GenreNotFoundException {
         Genre genre1=genreRepository.findById(id).orElseThrow(()->new GenreNotFoundException("Жанр с таким ID не найден"));
         genre1.setNameOfGenre(genre.getNameOfGenre());
-        genre1.setDescriptionOfGenre(genre.getNameOfGenre());
+        genre1.setDescriptionOfGenre(genre.getDescriptionOfGenre());
         return genreRepository.save(genre1);
+    }
+    @Override
+    public Set<Film> getFilmsByGenre(long id) throws GenreNotFoundException {
+        Genre genre=genreRepository.findById(id).orElseThrow(()->new GenreNotFoundException("Жанр с таким ID не найден"));
+        return genre.getFilmList();
     }
 }

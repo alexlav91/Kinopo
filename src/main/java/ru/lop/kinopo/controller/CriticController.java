@@ -1,14 +1,11 @@
 package ru.lop.kinopo.controller;
 
-import ch.qos.logback.core.net.server.Client;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.lop.kinopo.exceptions.CriticNotFoundExceptions;
-import ru.lop.kinopo.model.dto.APIResponse;
-import ru.lop.kinopo.model.dto.CriticDTO;
+import ru.lop.kinopo.model.dto.CriticDto;
 import ru.lop.kinopo.model.entity.Critic;
 import ru.lop.kinopo.service.impl.CriticServiceImp;
 
@@ -38,14 +35,14 @@ public class CriticController {
     }
     @PostMapping("/")
     @ApiOperation("Добавить критика")
-    public Critic createCritic(@RequestBody CriticDTO critic){
+    public Critic createCritic(@RequestBody CriticDto critic){
 
         return  criticServiceImp.saveCritic(critic);
     }
 
     @PutMapping("{id}")
     @ApiOperation("Обновить данные критика")
-    public Critic updateCritic(@RequestBody CriticDTO critic, @PathVariable(value="id") long id ) throws CriticNotFoundExceptions {
+    public Critic updateCritic(@RequestBody CriticDto critic, @PathVariable(value="id") long id ) throws CriticNotFoundExceptions {
        return criticServiceImp.updateCriticById (id, critic);
     }
     @DeleteMapping("{id}")
