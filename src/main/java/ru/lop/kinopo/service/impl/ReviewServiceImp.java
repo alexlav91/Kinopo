@@ -47,19 +47,20 @@ public class ReviewServiceImp implements ReviewService {
         review1.setDate(review.getDate());
         review1.setFilm(review.getFilm());
         review1.setCritic(review.getCritic());
-//        double sum=0.0;
-//        if (review1.getFilm().getReviewList().size()!=0) {
-//            for (int i = 0; i < review1.getFilm().getReviewList().size(); i++) {
-//                sum+=review1.getFilm().getReviewList().get(i).getRating();
-//
-//            }
-//            sum/=review1.getFilm().getReviewList().size();
-//            filmRepository.findById(review1.getFilm().getId()).orElseThrow(()->
-//                    new FilmNotFoundException("Фильм с таким ID не существует")).setRatingOfFilm(sum);
-//        }else{
-//            filmRepository.findById(review1.getFilm().getId()).orElseThrow(()->
-//                    new FilmNotFoundException("Фильм с таким ID не существует")).setRatingOfFilm(review.getRating());
-//        }
+        this.reviewRepository.save(review1) ;
+       double sum=0.0;
+        if (review1.getFilm().getReviewList().size()==0) {
+            filmRepository.findById(review1.getFilm().getId()).orElseThrow(()->
+                    new FilmNotFoundException("Фильм с таким ID не существует")).setRatingOfFilm(review.getRating());
+        }else{
+            for (int i = 0; i < review1.getFilm().getReviewList().size(); i++) {
+                sum+=review1.getFilm().getReviewList().get(i).getRating();
+            }
+            sum+=review.getRating();
+            sum/=review1.getFilm().getReviewList().size()+1;
+            filmRepository.findById(review1.getFilm().getId()).orElseThrow(()->
+                    new FilmNotFoundException("Фильм с таким ID не существует")).setRatingOfFilm(sum);
+       }
         return this.reviewRepository.save(review1) ;
     }
 
