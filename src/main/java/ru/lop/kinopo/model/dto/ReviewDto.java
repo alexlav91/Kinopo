@@ -7,11 +7,8 @@ import ru.lop.kinopo.model.entity.Film;
 @Setter
 @Getter
 public class ReviewDto {
-
     private double rating;
-
     private String message;
-
     private String date;
     private Critic critic;
     private Film film;

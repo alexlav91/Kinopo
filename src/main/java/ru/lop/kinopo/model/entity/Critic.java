@@ -26,7 +26,6 @@ public class Critic {
     private String surnameOfCritic;
     @Column(name="personal_information")
     private String personalInformation;
-
     @OneToMany(mappedBy = "critic")
     private List<Review> reviewList;
 }

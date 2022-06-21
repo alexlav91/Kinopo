@@ -18,7 +18,6 @@ public class ReviewController {
     private ReviewServiceImp reviewServiceImp;
     @Autowired
     public ReviewController(ReviewServiceImp reviewServiceImp) {
-
         this.reviewServiceImp = reviewServiceImp;
     }
     @GetMapping("/")
@@ -36,7 +35,6 @@ public class ReviewController {
     @PostMapping("/")
     @ApiOperation("Добавить отзыв")
     public  Review createReview(@RequestBody ReviewDto review) throws FilmNotFoundException {
-
         return reviewServiceImp.saveReview(review);
     }
 
@@ -48,7 +46,6 @@ public class ReviewController {
     @DeleteMapping("{id}")
     @ApiOperation("Удалить отзыв")
     public void deleteReview(@PathVariable(value="id")long id){
-
         this.reviewServiceImp.deleteReviewById(id);
     }
 

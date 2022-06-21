@@ -26,8 +26,6 @@ public class Genre {
     private String nameOfGenre;
     @Column(name="description_of_gener")
     private String descriptionOfGenre;
-
-
     @ManyToMany(mappedBy = "genreList")
     private Set<Film> filmList=new HashSet<>();
 }

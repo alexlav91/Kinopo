@@ -19,8 +19,6 @@ import java.util.Set;
 public class GenreServiceImp implements GenreService {
     private final GenreRepository genreRepository;
     private final FilmRepository filmRepository;
-
-
     @Override
     public List<Genre> getAllGenre() {
         return genreRepository.findAll();
@@ -33,7 +31,6 @@ public class GenreServiceImp implements GenreService {
         genre1.setDescriptionOfGenre(genreDto.getDescriptionOfGenre());
         return genreRepository.save(genre1);
     }
-
     @Override
     public Genre getGenreByID(long id) {
         Optional<Genre> optional=genreRepository.findById(id);
@@ -45,12 +42,10 @@ public class GenreServiceImp implements GenreService {
         }
         return genre;
     }
-
     @Override
     public void deleteGenreByID(long id) {
     this.genreRepository.findById(id);
     }
-
     @Override
     public Genre updateGenreById(long id, GenreDto genre) throws GenreNotFoundException {
         Genre genre1=genreRepository.findById(id).orElseThrow(()->new GenreNotFoundException("Жанр с таким ID не найден"));

@@ -7,9 +7,7 @@ import java.util.List;
 @Setter
 @Getter
 public class GenreDto {
-
     private String nameOfGenre;
-
     private String descriptionOfGenre;
     private List<Long> filmList;
 }

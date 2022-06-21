@@ -31,7 +31,6 @@ public class Review {
     @JoinColumn(name="critic_id")
     @JsonIgnore
     private Critic critic;
-
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "film_id")

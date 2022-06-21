@@ -5,12 +5,9 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class CriticDto {
-
+public class CriticDto{
     private String nameOfCritic;
-
     private String surnameOfCritic;
-
     private String personalInformation;
 }
 

@@ -20,12 +20,10 @@ public class CriticServiceImp implements CriticService {
     public CriticServiceImp(CriticRepository criticRepository) {
         this.criticRepository = criticRepository;
     }
-
     @Override
     public List<Critic> getAllCritics() {
         return criticRepository.findAll();
     }
-
     @Override
     public Critic getCriticById(long id) {
         Optional<Critic>optional=criticRepository.findById(id);
@@ -42,7 +40,6 @@ public class CriticServiceImp implements CriticService {
     public void deleteCriticById(long id) {
         this.criticRepository.deleteById(id);
     }
-
     @Override
     public Critic updateCriticById(long id, CriticDto critic) throws CriticNotFoundExceptions {
         Critic critic1=criticRepository.findById(id).orElseThrow(() -> new CriticNotFoundExceptions("Критик с таким ID не найден"));
@@ -52,16 +49,12 @@ public class CriticServiceImp implements CriticService {
 
         return this.criticRepository.save(critic1);
     }
-
     @Override
     public Critic saveCritic(CriticDto critic) {
         Critic critic1=new Critic();
         critic1.setNameOfCritic(critic.getNameOfCritic());
         critic1.setSurnameOfCritic(critic.getSurnameOfCritic());
         critic1.setPersonalInformation(critic.getPersonalInformation());
-
         return this.criticRepository.save(critic1);
     }
-
-
 }

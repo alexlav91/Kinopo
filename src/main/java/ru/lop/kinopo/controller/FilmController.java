@@ -9,7 +9,6 @@ import ru.lop.kinopo.model.dto.FilmDto;
 import ru.lop.kinopo.model.entity.Film;
 import ru.lop.kinopo.model.entity.Review;
 import ru.lop.kinopo.service.impl.FilmServiceImp;
-
 import java.util.List;
 
 
@@ -19,7 +18,6 @@ public class FilmController {
     private FilmServiceImp filmServiceImp;
     @Autowired
     public FilmController(FilmServiceImp filmServiceImp) {
-
         this.filmServiceImp = filmServiceImp;
     }
     @GetMapping("/")

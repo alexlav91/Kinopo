@@ -8,8 +8,6 @@ import ru.lop.kinopo.exceptions.CriticNotFoundExceptions;
 import ru.lop.kinopo.model.dto.CriticDto;
 import ru.lop.kinopo.model.entity.Critic;
 import ru.lop.kinopo.service.impl.CriticServiceImp;
-
-
 import java.util.List;
 
 
@@ -36,7 +34,6 @@ public class CriticController {
     @PostMapping("/")
     @ApiOperation("Добавить критика")
     public Critic createCritic(@RequestBody CriticDto critic){
-
         return  criticServiceImp.saveCritic(critic);
     }
 
@@ -48,9 +45,7 @@ public class CriticController {
     @DeleteMapping("{id}")
     @ApiOperation("Удалить критика")
     public void deleteCritic(@PathVariable(value = "id")long id){
-
         this.criticServiceImp.deleteCriticById(id);
     }
-
 
 }

@@ -19,7 +19,6 @@ public class GenreController {
     private GenreServiceImp genreServiceImp;
     @Autowired
     public GenreController(GenreServiceImp genreServiceImp) {
-
         this.genreServiceImp = genreServiceImp;
     }
     @GetMapping("/")
